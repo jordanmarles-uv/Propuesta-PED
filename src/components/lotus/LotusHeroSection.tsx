@@ -110,14 +110,18 @@ export default function LotusHeroSection() {
             className="flex flex-col items-start text-left"
           >
             {/* Logo de Univalle */}
-            <motion.img 
-              src="/media/logo-80-anos.png" 
-              alt="Universidad del Valle - 80 Años"
-              className="h-20 sm:h-24 mb-8 object-contain"
+            <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-            />
+              className="mb-8"
+            >
+              <img 
+                src="./media/logo-80-anos.png" 
+                alt="Universidad del Valle - 80 Años"
+                className="h-20 sm:h-24 object-contain"
+              />
+            </motion.div>
 
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-uv-red-subtle text-uv-red border border-uv-red/20 mb-6">
               Ruta Estratégica
