@@ -11,13 +11,10 @@ import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "#hero" },
-  { label: "Historia", href: "#historia" },
   { label: "Contexto", href: "#contexto" },
   { label: "Proceso", href: "#timeline" },
-  { label: "Desafíos", href: "#desafios" },
   { label: "Cifras", href: "#cifras" },
   { label: "Recursos", href: "#multimedia" },
-  { label: "Criterio", href: "#criterio" },
   { label: "Participa", href: "#participa" },
 ] as const;
 
@@ -58,9 +55,13 @@ export default function Header() {
 
   const handleNavClick = (href: string) => {
     setMobileMenuOpen(false);
-    const el = document.querySelector(href);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+    if (href === "#hero") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      const el = document.querySelector(href);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
     }
   };
 
@@ -85,12 +86,12 @@ export default function Header() {
                 onClick={() => handleNavClick("#hero")}
                 className="flex items-center gap-3 group"
               >
-                {/* 🚧 SIMPLIFIED: Placeholder del logo — reemplazar con logo-ped-marca.svg */}
-                <div className="w-9 h-9 rounded-lg bg-uv-red flex items-center justify-center">
-                  <span className="text-white font-bold text-sm" style={{ fontFamily: "var(--font-heading)" }}>
-                    PED
-                  </span>
-                </div>
+                <img
+                  src="/media/logo-80-anos.png"
+                  alt="Logo Universidad del Valle 80 años"
+                  className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-300 shrink-0"
+                  style={{ filter: isScrolled ? "none" : "brightness(0) invert(1)" }}
+                />
                 <div className="hidden sm:block text-left">
                   <span
                     className={`block text-sm font-bold tracking-tight transition-colors ${

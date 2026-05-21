@@ -1,82 +1,231 @@
 "use client";
 
-// 📚 LEARN: react-tweet es la librería recomendada por Vercel para Next.js App Router
-// Permite renderizar tweets reales sin usar iframes pesados, mejorando el rendimiento (SEO y LCP).
-import { Tweet } from "react-tweet";
-import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Heart, MessageCircle, Play } from "lucide-react";
+
+// // ✅ BEST PRACTICE: Declaramos Instagram como un componente SVG local para mayor seguridad ante actualizaciones externas.
+// // 📚 LEARN: Al mantener este icono local evitamos depender de librerías externas que borran iconos de marca (como lucide en versiones recientes).
+const Instagram = ({ size = 24, ...props }: React.SVGProps<SVGSVGElement> & { size?: number }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    {...props}
+  >
+    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
 import SectionHeading from "@/components/ui/SectionHeading";
 
-// 🚧 SIMPLIFIED: Reemplaza estos IDs con los IDs reales de los tweets de @univallecol
-// Puedes encontrar el ID al final de la URL del tweet (ej: twitter.com/user/status/123456789)
-const TWEET_IDS = [
-  "1761427189178220800", // Placeholder (Ejemplo)
-  "1759600000000000000", // Placeholder
-];
+// ✅ BEST PRACTICE: Estructuración inmutable de las publicaciones oficiales
+const INSTAGRAM_POSTS = [
+  {
+    id: "DIt2Li4MvFZ",
+    title: "La Universidad del Valle proyecta su futuro al 2035. Conoce los 7 desafíos de transformación del PED y sé parte del cambio. 🔴✨ #PED2035 #Univalle",
+    thumbnail: "/media/video-thumb-institucional.jpg",
+    likes: 4281,
+    comments: "112",
+    href: "https://www.instagram.com/reel/DIt2Li4MvFZ/",
+  },
+  {
+    id: "DMDIY25tI02",
+    title: "Nuestras 11 sedes regionales unidas por un solo propósito. La regionalización y el modelo multicampus en el centro del PED 2025-2035. 🗺️🏫 #Univalle #Regionalizacion",
+    thumbnail: "/media/video-thumb-metodologia.webp",
+    likes: 3829,
+    comments: "94",
+    href: "https://www.instagram.com/reel/DMDIY25tI02/",
+  },
+  {
+    id: "DAyxLY4SOpf",
+    title: "Voces de la comunidad: estudiantes, egresados y docentes nos cuentan qué esperan de la Universidad del Valle para la próxima década. 🗣️🎓 #Participa #PEDUnivalle",
+    thumbnail: "/media/video-thumb-comunidad.webp",
+    likes: 5102,
+    comments: "158",
+    href: "https://www.instagram.com/reel/DAyxLY4SOpf/",
+  },
+] as const;
+
+interface ReelCardProps {
+  post: (typeof INSTAGRAM_POSTS)[number];
+  delay: number;
+}
+
+function ReelCard({ post, delay }: ReelCardProps) {
+  const [liked, setLiked] = useState(false);
+  // // ✅ BEST PRACTICE: Declaramos explícitamente el tipo <number> en el useState para ensanchar el tipo literal estricto derivado del "as const" del objeto inmutable.
+  const [likesCount, setLikesCount] = useState<number>(post.likes);
+
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault(); // Evitar que el clic en el botón de corazón abra el enlace del reel
+    e.stopPropagation();
+    setLiked(!liked);
+    setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay, duration: 0.5 }}
+      className="group relative bg-white border border-border-light rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col h-full"
+    >
+      {/* Miniatura del Reel */}
+      <div className="relative aspect-[4/5] overflow-hidden bg-black shrink-0">
+        <img
+          src={post.thumbnail}
+          alt={post.title}
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+
+        {/* Capa superpuesta en Hover (Instagram Stats) */}
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 text-white pointer-events-none">
+          <span className="flex items-center gap-1.5 font-bold text-sm">
+            <Heart size={18} className="fill-current text-white" />
+            {likesCount.toLocaleString("es-CO")}
+          </span>
+          <span className="flex items-center gap-1.5 font-bold text-sm">
+            <MessageCircle size={18} className="fill-current text-white" />
+            {post.comments}
+          </span>
+        </div>
+
+        {/* Icono de Reels de Instagram en la esquina */}
+        <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/45 backdrop-blur-md flex items-center justify-center text-white border border-white/10 shadow-sm z-10">
+          <Play size={14} className="fill-current ml-0.5" />
+        </div>
+
+        {/* Botón de reproducción superpuesto */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <motion.div 
+            whileHover={{ scale: 1.1 }}
+            className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-md group-hover:scale-105 group-hover:bg-white/30 transition-all"
+          >
+            <Play size={20} className="fill-current ml-0.5" />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Cuerpo de la publicación */}
+      <div className="p-4 flex-1 flex flex-col justify-between">
+        <div>
+          {/* Caption / Texto */}
+          <p className="text-xs text-text-primary leading-relaxed line-clamp-3 mb-4">
+            {post.title}
+          </p>
+        </div>
+
+        <div className="pt-3 border-t border-border-light flex items-center justify-between mt-auto">
+          {/* Botón de Likes interactivo */}
+          <button
+            onClick={handleLike}
+            className="flex items-center gap-1 text-xs font-semibold text-text-secondary hover:text-red-500 transition-colors"
+          >
+            <Heart
+              size={16}
+              className={`transition-all duration-300 ${
+                liked ? "fill-red-500 text-red-500 scale-120 animate-pulse" : "text-text-muted"
+              }`}
+            />
+            <span>{likesCount.toLocaleString("es-CO")}</span>
+          </button>
+
+          {/* Enlace oficial */}
+          <a
+            href={post.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[11px] font-bold text-uv-red hover:underline inline-flex items-center gap-1 uppercase tracking-wider"
+          >
+            Ver en Instagram
+            <ExternalLink size={10} />
+          </a>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 export default function SocialFeedSection() {
   return (
-    <section id="actualidad" className="section-padding bg-bg-muted">
+    <section id="actualidad" className="section-padding bg-bg-secondary border-t border-b border-border-light">
       <div className="container-wide mx-auto px-4 sm:px-6">
         <SectionHeading
           eyebrow="Actualidad"
           title="Sincronizados con la comunidad"
           highlight="Sincronizados"
-          description="La implementación del PED es noticia constante. Mantente al tanto de las discusiones, foros y avances directamente desde las redes oficiales."
+          description="La implementación del PED es noticia constante. Mantente al tanto de los Reels oficiales sobre los foros, las sedes regionales y los testimonios de Univalle."
         />
 
-        <div className="max-w-4xl mx-auto mt-10">
-          <div className="card overflow-hidden border border-border-light bg-white shadow-sm">
-            <div className="flex items-center justify-between border-b border-border-light bg-bg-muted px-6 py-4">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-black text-white">
-                  {/* Twitter/X icon */}
-                  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-current">
-                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 5.96H5.078z"></path>
-                  </svg>
+        <div className="max-w-5xl mx-auto mt-10">
+          {/* Cabecera estilo perfil de Instagram */}
+          <div className="card overflow-hidden border border-border-light bg-white shadow-md rounded-2xl mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between px-6 py-5 gap-4 bg-gradient-to-r from-bg-card to-uv-red-subtle/10 border-b border-border-light">
+              <div className="flex items-center gap-4">
+                {/* Foto perfil */}
+                <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center shrink-0 shadow-md">
+                  <div className="w-full h-full rounded-full bg-white p-0.5 flex items-center justify-center overflow-hidden">
+                    <img
+                      src="/media/logo-80-anos.png"
+                      alt="Perfil Universidad del Valle"
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-bold text-text-primary text-sm sm:text-base">Actualidad del PED 2035</h3>
-                  <p className="text-xs text-text-secondary">@univallecol · #PED2025_2035</p>
+
+                <div className="text-left">
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="font-extrabold text-text-primary text-base sm:text-lg leading-none" style={{ fontFamily: "var(--font-heading)" }}>
+                      univallecol
+                    </h3>
+                    {/* Badge Verificado de Instagram */}
+                    <span className="w-4 h-4 bg-[#0095f6] text-white rounded-full flex items-center justify-center text-[8px] font-bold shadow-sm select-none">
+                      ✓
+                    </span>
+                  </div>
+                  <p className="text-xs text-text-muted mt-1 font-medium">Universidad del Valle · Institución Universitaria</p>
+                  <p className="text-[10px] text-text-secondary font-semibold mt-0.5">Cali, Valle del Cauca, Colombia</p>
                 </div>
               </div>
-              <a 
-                href="https://twitter.com/univallecol" 
-                target="_blank" 
+
+              {/* Botón de seguir */}
+              <a
+                href="https://www.instagram.com/univallecol/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-sm font-medium text-uv-red hover:underline"
+                className="flex items-center gap-2 text-xs font-bold bg-[#0095f6] hover:bg-[#1877f2] text-white px-5 py-2.5 rounded-xl shadow-sm transition-all duration-300 shrink-0"
               >
-                Ver perfil oficial
-                <ExternalLink size={14} />
+                <Instagram size={14} />
+                Seguir en Instagram
               </a>
             </div>
 
-            <div className="bg-[#f7f9fa] dark:bg-black p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {TWEET_IDS.map((id, index) => (
-                <motion.div 
-                  key={id}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="w-full flex justify-center"
-                >
-                  {/* ✅ BEST PRACTICE: Renderizar usando el componente oficial evita Layout Shifts */}
-                  <div className="w-full max-w-[400px]">
-                    <Tweet id={id} />
-                  </div>
-                </motion.div>
+            {/* Mosaic Grid */}
+            <div className="p-4 sm:p-6 bg-bg-secondary grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {INSTAGRAM_POSTS.map((post, index) => (
+                <ReelCard key={post.id} post={post} delay={index * 0.1} />
               ))}
             </div>
-            
-            <div className="bg-bg-muted p-4 text-center border-t border-border-light">
-              <a 
-                href="https://twitter.com/univallecol" 
-                target="_blank" 
+
+            {/* Footer de sección */}
+            <div className="bg-white p-4 text-center border-t border-border-light">
+              <a
+                href="https://www.instagram.com/univallecol/"
+                target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm font-semibold text-text-secondary hover:text-uv-red transition-colors inline-block"
+                className="text-xs font-extrabold text-text-secondary hover:text-uv-red transition-all uppercase tracking-wider inline-flex items-center gap-1.5"
               >
-                Ver más en X (Twitter)
+                Ver más publicaciones
+                <ExternalLink size={12} />
               </a>
             </div>
           </div>

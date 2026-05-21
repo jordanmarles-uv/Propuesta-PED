@@ -126,30 +126,61 @@ export default function ContextoSection() {
             
             <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4">
               {TOMOS.map((tomo, i) => (
-                <motion.div
+                <motion.a
                   key={tomo.number}
+                  href="#multimedia"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    document.querySelector("#multimedia")?.scrollIntoView({ behavior: "smooth" });
+                  }}
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: 0.2 + i * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="flex flex-col p-5 rounded-2xl bg-bg-secondary border border-border-light hover:border-border-medium hover:shadow-md transition-all group cursor-pointer"
+                  whileHover={{ y: -8, scale: 1.03, rotate: 1 }}
+                  className="flex flex-col p-6 rounded-2xl bg-white border border-border-light hover:border-transparent hover:shadow-xl transition-all group cursor-pointer relative overflow-hidden h-48 justify-between"
                 >
+                  {/* Lomo de libro lateral de color */}
                   <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-lg mb-4 shadow-sm"
-                    style={{ background: tomo.color, fontFamily: "var(--font-heading)" }}
+                    className="absolute left-0 top-0 bottom-0 w-2.5 transition-all duration-300 group-hover:w-3.5"
+                    style={{ background: tomo.color }}
+                  />
+
+                  {/* Número gigante de fondo semi-transparente */}
+                  <div
+                    className="absolute right-2 -bottom-2 text-8xl font-black opacity-[0.04] group-hover:opacity-[0.08] group-hover:scale-110 transition-all duration-500 pointer-events-none select-none"
+                    style={{ color: tomo.color, fontFamily: "var(--font-heading)" }}
                   >
                     {tomo.number}
                   </div>
-                  <p className="text-sm font-bold text-text-primary group-hover:text-uv-red transition-colors mb-1 leading-tight">
-                    Tomo {tomo.number}
-                  </p>
-                  <p className="text-xs text-text-secondary leading-snug">{tomo.title}</p>
-                  <div className="mt-auto pt-4 flex items-center justify-between">
-                    <span className="text-[10px] uppercase tracking-wider text-text-muted font-semibold">{tomo.pages} pags</span>
-                    <span className="text-uv-red opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+
+                  <div>
+                    {/* Badge de número */}
+                    <div
+                      className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm mb-3.5 shadow-sm group-hover:scale-110 transition-transform"
+                      style={{ background: tomo.color, fontFamily: "var(--font-heading)" }}
+                    >
+                      {tomo.number}
+                    </div>
+                    
+                    <h4 
+                      className="text-sm font-bold text-text-primary group-hover:text-uv-red transition-colors mb-1.5 leading-tight"
+                      style={{ fontFamily: "var(--font-heading)" }}
+                    >
+                      Tomo {tomo.number}
+                    </h4>
+                    <p className="text-xs text-text-secondary leading-snug max-w-[160px]">{tomo.title}</p>
                   </div>
-                </motion.div>
+
+                  <div className="pt-3 border-t border-border-light flex items-center justify-between mt-auto">
+                    <span className="text-[10px] uppercase tracking-wider text-text-muted font-bold">{tomo.pages} págs</span>
+                    <span 
+                      className="text-xs font-bold text-uv-red opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300"
+                    >
+                      Descargar →
+                    </span>
+                  </div>
+                </motion.a>
               ))}
             </div>
           </div>
