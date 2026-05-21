@@ -6,7 +6,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Users } from "lucide-react";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const NAV_LINKS = [
@@ -89,7 +89,7 @@ export default function Header() {
                 <img
                   src="/media/logo-80-anos.png"
                   alt="Logo Universidad del Valle 80 años"
-                  className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-300 shrink-0"
+                  className="w-[52px] h-[52px] object-contain group-hover:scale-105 transition-transform duration-300 shrink-0"
                   style={{ filter: isScrolled ? "none" : "brightness(0) invert(1)" }}
                 />
                 <div className="hidden sm:block text-left">
@@ -100,13 +100,6 @@ export default function Header() {
                     style={{ fontFamily: "var(--font-heading)" }}
                   >
                     PED 2025-2035
-                  </span>
-                  <span
-                    className={`block text-[10px] font-medium tracking-wider uppercase transition-colors ${
-                      isScrolled ? "text-text-secondary" : "text-white/70"
-                    }`}
-                  >
-                    Universidad del Valle
                   </span>
                 </div>
               </button>
@@ -153,12 +146,15 @@ export default function Header() {
                   e.preventDefault();
                   handleNavClick("#participa");
                 }}
-                className={`hidden md:inline-flex text-sm font-semibold px-4 py-2 rounded-full transition-all duration-200 ${
+                className={`hidden md:inline-flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-full transition-all duration-200 relative overflow-hidden ${
                   isScrolled
                     ? "bg-uv-red text-white hover:bg-uv-red-dark shadow-sm"
                     : "bg-white/15 text-white border border-white/25 hover:bg-white/25"
                 }`}
               >
+                {/* ✅ BEST PRACTICE: Pulsación radial para llamar la atención sin molestar */}
+                <span className="absolute inset-0 rounded-full animate-ping opacity-20 bg-current" style={{ animationDuration: "2.5s" }} />
+                <Users size={14} className="shrink-0" />
                 Participa
               </a>
               <button

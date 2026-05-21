@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, Users, Flag, BarChart3, ChevronRight } from "lucide-react";
+import { Calendar, Users, Flag, BarChart3, ChevronRight, CalendarPlus } from "lucide-react";
 import { TIMELINE_EVENTS } from "@/data/timeline";
 import SectionHeading from "@/components/ui/SectionHeading";
 
@@ -116,10 +116,23 @@ export default function TimelineSection() {
                         >
                           <div className="pt-4 mt-4 border-t border-border-light flex items-center justify-between">
                             <span className="text-xs font-medium text-text-muted">Impacto institucional</span>
-                            <div className="flex -space-x-2">
-                              {[1, 2, 3].map((n) => (
-                                <div key={n} className="w-6 h-6 rounded-full bg-border-medium border-2 border-white" />
-                              ))}
+                            <div className="flex items-center gap-3">
+                              <div className="flex -space-x-2">
+                                {[1, 2, 3].map((n) => (
+                                  <div key={n} className="w-6 h-6 rounded-full bg-border-medium border-2 border-white" />
+                                ))}
+                              </div>
+                              {/* ✅ BEST PRACTICE: Google Calendar URL deep link para pre-llenar el evento. */}
+                              <a
+                                href={`https://calendar.google.com/calendar/r/eventedit?text=${encodeURIComponent(event.title)}&details=${encodeURIComponent(event.description)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-1.5 text-[11px] font-bold text-white bg-uv-red hover:bg-uv-red-dark px-3 py-1.5 rounded-lg transition-all shrink-0"
+                              >
+                                <CalendarPlus size={12} />
+                                Agendar
+                              </a>
                             </div>
                           </div>
                         </motion.div>

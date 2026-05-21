@@ -160,18 +160,21 @@ export default function FloatingWidgets() {
             name: "Instagram",
             icon: Instagram,
             color: "linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%)",
+            iconColor: "#e1306c",
             href: "https://www.instagram.com/univallecol/",
           },
           {
             name: "Facebook",
             icon: Facebook,
             color: "#1877F2",
+            iconColor: "#1877F2",
             href: "https://www.facebook.com/universidaddelvalle",
           },
           {
             name: "YouTube",
             icon: Youtube,
             color: "#FF0000",
+            iconColor: "#FF0000",
             href: "https://www.youtube.com/@universidaddelvalle1",
           },
         ].map((social, i) => {
@@ -186,20 +189,21 @@ export default function FloatingWidgets() {
               animate={{ x: 0, opacity: 1 }}
               transition={{ delay: 0.2 + i * 0.1, duration: 0.4 }}
               whileHover={{ x: 0 }}
-              className="pointer-events-auto flex items-center gap-3 px-3 py-2.5 bg-white/90 backdrop-blur-md border border-border-light text-foreground font-semibold text-xs rounded-r-xl shadow-md hover:text-white transition-all group duration-300"
+              className="pointer-events-auto flex items-center gap-3 px-3 py-2.5 bg-white/90 backdrop-blur-md border border-border-light font-semibold text-xs rounded-r-xl shadow-md transition-all group duration-300"
               style={{
-                x: -36, // Dejar solo una pequeña pestaña visible por defecto
+                x: -36,
               }}
             >
               <div className="w-4 h-4 shrink-0 transition-transform duration-300 group-hover:scale-110">
+                {/* ✅ BEST PRACTICE: El icono debe ser blanco en hover porque el fondo tomará el color de la red social. */}
                 <Icon
                   size={16}
                   className="transition-colors group-hover:text-white"
-                  style={{ color: social.name === "Instagram" ? "#e1306c" : social.color }}
+                  style={{ color: social.iconColor }}
                 />
               </div>
               <span
-                className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto transition-all duration-300 overflow-hidden pr-1"
+                className="opacity-0 w-0 group-hover:opacity-100 group-hover:w-auto group-hover:text-white transition-all duration-300 overflow-hidden pr-1"
                 style={{ fontFamily: "var(--font-heading)" }}
               >
                 {social.name}
@@ -367,52 +371,53 @@ export default function FloatingWidgets() {
           )}
         </AnimatePresence>
 
-        {/* Botón Flotante Principal del Bot */}
+        {/* Botón Flotante Principal del Bot — protagonista 🤖 */}
         <motion.button
           onClick={() => setChatOpen(!chatOpen)}
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.95 }}
-          className="w-14 h-14 rounded-full bg-gradient-to-br from-uv-red to-uv-red-dark text-white flex items-center justify-center shadow-xl border border-white/10 hover:shadow-uv-red/20 transition-all cursor-pointer relative group overflow-hidden"
+          whileHover={{ scale: 1.06 }}
+          whileTap={{ scale: 0.93 }}
+          className="relative w-[88px] h-[88px] rounded-full bg-white text-uv-red flex items-center justify-center shadow-2xl border-2 border-uv-red/20 hover:border-uv-red/40 transition-all cursor-pointer group overflow-visible"
+          style={{ boxShadow: "0 8px 40px rgba(198,10,40,0.25)" }}
         >
-          {/* Fondo interactivo radial */}
-          <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full" />
+          {/* Anillo pulsante exterior */}
+          <span className="absolute inset-0 rounded-full animate-ping opacity-10 bg-uv-red" style={{ animationDuration: "3s" }} />
           
           <AnimatePresence mode="wait">
             {chatOpen ? (
               <motion.div
                 key="close"
-                initial={{ opacity: 0, rotate: -45 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: 45 }}
+                initial={{ opacity: 0, rotate: -45, scale: 0.7 }}
+                animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                exit={{ opacity: 0, rotate: 45, scale: 0.7 }}
                 className="shrink-0"
               >
-                <X size={24} />
+                <X size={30} />
               </motion.div>
             ) : (
               <motion.div
                 key="bot"
-                initial={{ opacity: 0, rotate: 45 }}
-                animate={{ opacity: 1, rotate: 0 }}
-                exit={{ opacity: 0, rotate: -45 }}
-                className="flex items-center justify-center shrink-0"
+                initial={{ opacity: 0, scale: 0.7 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.7 }}
+                className="flex items-center justify-center"
               >
-                {/* 🤖 Bot Animado en SVG nativo */}
-                <img 
+                {/* 🤖 Robot 3D premium como protagonista */}
+                <img
                   src="/media/Robot-Bot 3D.svg"
                   alt="PED-Bot"
-                  className="w-9 h-9 object-contain animate-pulse"
+                  className="w-[76px] h-[76px] object-contain transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1"
                 />
               </motion.div>
             )}
           </AnimatePresence>
 
-          {/* Globo de ayuda parpadeante inicial */}
+          {/* Globo de ayuda */}
           {!chatOpen && messages.length === 0 && (
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 3, duration: 0.5 }}
-              className="absolute right-16 top-2.5 bg-foreground text-white font-semibold text-[10px] px-2.5 py-1.5 rounded-xl rounded-tr-none shadow-md border border-white/10 whitespace-nowrap hidden sm:block pointer-events-none"
+              className="absolute right-[96px] top-3 bg-foreground text-white font-semibold text-[10px] px-2.5 py-1.5 rounded-xl rounded-tr-none shadow-md border border-white/10 whitespace-nowrap hidden sm:block pointer-events-none"
             >
               ¿Preguntas del PED 2035? 💬
             </motion.div>

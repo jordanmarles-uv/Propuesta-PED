@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Heart, MessageCircle, Play } from "lucide-react";
+import { ExternalLink, Heart, MessageCircle, Play, X } from "lucide-react";
 
 // // ✅ BEST PRACTICE: Declaramos Instagram como un componente SVG local para mayor seguridad ante actualizaciones externas.
 // // 📚 LEARN: Al mantener este icono local evitamos depender de librerías externas que borran iconos de marca (como lucide en versiones recientes).
@@ -61,15 +61,20 @@ interface ReelCardProps {
 
 function ReelCard({ post, delay }: ReelCardProps) {
   const [liked, setLiked] = useState(false);
-  // // ✅ BEST PRACTICE: Declaramos explícitamente el tipo <number> en el useState para ensanchar el tipo literal estricto derivado del "as const" del objeto inmutable.
+  const [playing, setPlaying] = useState(false);
+  // // ✅ BEST PRACTICE: El tipo explicitó para permitir updates dinámicos sobre un "as const" literal.
   const [likesCount, setLikesCount] = useState<number>(post.likes);
 
   const handleLike = (e: React.MouseEvent) => {
-    e.preventDefault(); // Evitar que el clic en el botón de corazón abra el enlace del reel
+    e.preventDefault();
     e.stopPropagation();
     setLiked(!liked);
     setLikesCount((prev) => (liked ? prev - 1 : prev + 1));
   };
+
+  // 📚 LEARN: Instagram permite embeds vía /embed en URL oficial.
+  // El bloqueo CORS afecta solo a JS directo; iframes sí funcionan.
+  const embedUrl = `https://www.instagram.com/reel/${post.id}/embed/`;
 
   return (
     <motion.div
@@ -79,53 +84,95 @@ function ReelCard({ post, delay }: ReelCardProps) {
       transition={{ delay, duration: 0.5 }}
       className="group relative bg-white border border-border-light rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden flex flex-col h-full"
     >
-      {/* Miniatura del Reel */}
-      <div className="relative aspect-[4/5] overflow-hidden bg-black shrink-0">
-        <img
-          src={post.thumbnail}
-          alt={post.title}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+      {/* Área de video / thumbnail */}
+      <div className="relative overflow-hidden bg-black shrink-0">
+        <AnimatePresence mode="wait">
+          {playing ? (
+            <motion.div
+              key="embed"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="relative"
+            >
+              {/* ✅ BEST PRACTICE: sandbox="allow-scripts allow-same-origin" para seguridad. */}
+              <iframe
+                src={embedUrl}
+                className="w-full"
+                style={{ height: "480px", border: "none" }}
+                allowFullScreen
+                loading="lazy"
+                title={post.title}
+              />
+              {/* Botón cerrar embed */}
+              <button
+                onClick={() => setPlaying(false)}
+                className="absolute top-2 right-2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition-colors z-10"
+              >
+                <X size={14} />
+              </button>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="thumb"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="relative aspect-[4/5] cursor-pointer"
+              onClick={() => setPlaying(true)}
+            >
+              <img
+                src={post.thumbnail}
+                alt={post.title}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
 
-        {/* Capa superpuesta en Hover (Instagram Stats) */}
-        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 text-white pointer-events-none">
-          <span className="flex items-center gap-1.5 font-bold text-sm">
-            <Heart size={18} className="fill-current text-white" />
-            {likesCount.toLocaleString("es-CO")}
-          </span>
-          <span className="flex items-center gap-1.5 font-bold text-sm">
-            <MessageCircle size={18} className="fill-current text-white" />
-            {post.comments}
-          </span>
-        </div>
+              {/* Overlay en hover */}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-6 text-white pointer-events-none">
+                <span className="flex items-center gap-1.5 font-bold text-sm">
+                  <Heart size={18} className="fill-current" />
+                  {likesCount.toLocaleString("es-CO")}
+                </span>
+                <span className="flex items-center gap-1.5 font-bold text-sm">
+                  <MessageCircle size={18} className="fill-current" />
+                  {post.comments}
+                </span>
+              </div>
 
-        {/* Icono de Reels de Instagram en la esquina */}
-        <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/45 backdrop-blur-md flex items-center justify-center text-white border border-white/10 shadow-sm z-10">
-          <Play size={14} className="fill-current ml-0.5" />
-        </div>
+              {/* Botón play central */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <motion.div
+                  whileHover={{ scale: 1.12 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-14 h-14 rounded-full bg-white/25 backdrop-blur-md flex items-center justify-center text-white border border-white/40 shadow-lg transition-all group-hover:bg-white/35"
+                >
+                  <Play size={24} className="fill-current ml-1" />
+                </motion.div>
+              </div>
 
-        {/* Botón de reproducción superpuesto */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <motion.div 
-            whileHover={{ scale: 1.1 }}
-            className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30 shadow-md group-hover:scale-105 group-hover:bg-white/30 transition-all"
-          >
-            <Play size={20} className="fill-current ml-0.5" />
-          </motion.div>
-        </div>
+              {/* Badge Reel */}
+              <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white border border-white/10 shadow-sm">
+                <Play size={13} className="fill-current ml-0.5" />
+              </div>
+
+              {/* Etiqueta “Reproducir” */}
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                <span className="text-[11px] font-bold text-white bg-black/50 backdrop-blur-sm px-3 py-1 rounded-full whitespace-nowrap">
+                  Reproducir Reel ►
+                </span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
 
-      {/* Cuerpo de la publicación */}
+      {/* Cuerpo */}
       <div className="p-4 flex-1 flex flex-col justify-between">
-        <div>
-          {/* Caption / Texto */}
-          <p className="text-xs text-text-primary leading-relaxed line-clamp-3 mb-4">
-            {post.title}
-          </p>
-        </div>
+        <p className="text-xs text-text-primary leading-relaxed line-clamp-3 mb-4">
+          {post.title}
+        </p>
 
         <div className="pt-3 border-t border-border-light flex items-center justify-between mt-auto">
-          {/* Botón de Likes interactivo */}
           <button
             onClick={handleLike}
             className="flex items-center gap-1 text-xs font-semibold text-text-secondary hover:text-red-500 transition-colors"
@@ -139,7 +186,6 @@ function ReelCard({ post, delay }: ReelCardProps) {
             <span>{likesCount.toLocaleString("es-CO")}</span>
           </button>
 
-          {/* Enlace oficial */}
           <a
             href={post.href}
             target="_blank"

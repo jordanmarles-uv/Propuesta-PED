@@ -8,6 +8,7 @@
 import { useState, useMemo, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { DESAFIOS } from "@/data/desafios";
+import { BookOpen, BarChart3 } from "lucide-react";
 import {
   PETAL_VISUALS,
   PETAL_PATH,
@@ -109,19 +110,7 @@ export default function LotusHeroSection() {
             transition={{ duration: 1, delay: 0.2 }}
             className="flex flex-col items-start text-left"
           >
-            {/* Logo de Univalle */}
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
-              className="mb-8"
-            >
-              <img 
-                src="./media/logo-80-anos.png" 
-                alt="Universidad del Valle - 80 Años"
-                className="h-20 sm:h-24 object-contain"
-              />
-            </motion.div>
+            {/* ✅ BEST PRACTICE: Logo ya está en el Header fijo; omitirlo aquí evita duplicidad. */}
 
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-uv-red-subtle text-uv-red border border-uv-red/20 mb-6">
               Ruta Estratégica
@@ -138,14 +127,16 @@ export default function LotusHeroSection() {
             </h1>
 
             <p className="text-base sm:text-lg text-text-secondary leading-relaxed mb-8 max-w-lg">
-              La hoja de ruta que guiará a la Universidad del Valle hacia la excelencia académica, la transformación digital y el compromiso regional en la próxima década. Explora los 7 desafíos fundamentales que conforman nuestra visión institucional.
+              La hoja de ruta que guiará a la Universidad del Valle hacia la excelencia académica, la transformación digital y el compromiso regional en la próxima década.
             </p>
 
             <div className="flex flex-wrap gap-4">
-              <a href="#contexto" className="btn-primary">
+              <a href="#contexto" className="btn-primary inline-flex items-center gap-2">
+                <BookOpen size={16} />
                 Conoce las bases
               </a>
-              <a href="#cifras" className="btn-secondary">
+              <a href="#cifras" className="btn-secondary inline-flex items-center gap-2">
+                <BarChart3 size={16} />
                 Ver Indicadores
               </a>
             </div>
@@ -243,11 +234,11 @@ export default function LotusHeroSection() {
                     <motion.path
                       d={PETAL_PATH}
                       fill={`url(#petal-grad-${desafio.id})`}
-                      stroke="rgba(255,255,255,0.4)"
-                      strokeWidth={isHovered ? 3 : 1.5}
+                      stroke="rgba(255,255,255,0.55)"
+                      strokeWidth={isHovered ? 6 : 3.5}
                       style={{
                         cursor: "pointer",
-                        transformOrigin: "0px -112px", // Coincide con la base del nuevo path
+                        transformOrigin: "0px -112px",
                       }}
                       initial={{ scale: 0, opacity: 0 }}
                       animate={{
@@ -278,57 +269,78 @@ export default function LotusHeroSection() {
                 );
               })}
 
-              {/* ── Centro del loto texturizado ── */}
+              {/* ── Centro del loto: diseño premium ── */}
+              {/* Capa exterior decorativa */}
               <motion.circle
                 cx={SVG_CENTER}
                 cy={SVG_CENTER}
-                r={85}
+                r={120}
                 fill="white"
                 stroke="var(--border-medium)"
                 strokeWidth="2"
                 style={{ transformOrigin: `${SVG_CENTER}px ${SVG_CENTER}px` }}
-                animate={{ scale: [1, 1.04, 1] }}
+                animate={{ scale: [1, 1.03, 1] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
               <circle
                 cx={SVG_CENTER}
                 cy={SVG_CENTER}
-                r={85}
+                r={120}
                 fill="url(#center-texture)"
                 style={{ pointerEvents: "none" }}
               />
-
+              {/* Anillo interior */}
               <circle
                 cx={SVG_CENTER}
                 cy={SVG_CENTER}
-                r={60}
+                r={100}
                 fill="white"
                 stroke="var(--uv-red)"
-                strokeWidth="2"
-                strokeDasharray="4 6"
+                strokeWidth="3"
+                strokeDasharray="6 8"
+              />
+              {/* Área de texto central rellena blanca para contraste */}
+              <circle
+                cx={SVG_CENTER}
+                cy={SVG_CENTER}
+                r={90}
+                fill="white"
               />
 
+              {/* Título central prominente */}
               <text
                 x={SVG_CENTER}
-                y={SVG_CENTER - 2}
+                y={SVG_CENTER - 22}
                 textAnchor="middle"
-                fill="var(--text-primary)"
-                fontSize="28"
+                fill="var(--uv-red)"
+                fontSize="38"
                 fontWeight="900"
-                style={{ fontFamily: "var(--font-heading)" }}
+                style={{ fontFamily: "var(--font-heading)", letterSpacing: "-1" }}
               >
                 PED
               </text>
               <text
                 x={SVG_CENTER}
-                y={SVG_CENTER + 22}
+                y={SVG_CENTER + 20}
                 textAnchor="middle"
-                fill="var(--text-secondary)"
-                fontSize="14"
-                fontWeight="700"
-                letterSpacing={4}
+                fill="var(--text-primary)"
+                fontSize="22"
+                fontWeight="800"
+                letterSpacing={3}
+                style={{ fontFamily: "var(--font-heading)" }}
               >
                 2035
+              </text>
+              <text
+                x={SVG_CENTER}
+                y={SVG_CENTER + 46}
+                textAnchor="middle"
+                fill="var(--text-muted)"
+                fontSize="11"
+                fontWeight="600"
+                letterSpacing={5}
+              >
+                UNIVALLE
               </text>
 
               {/* Labels D1..D7 ampliados */}
@@ -401,6 +413,16 @@ export default function LotusHeroSection() {
                 })()}
             </AnimatePresence>
           </motion.div>
+
+          {/* Texto debajo de la flor */}
+          <motion.p
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            className="col-span-1 lg:col-span-2 text-center text-sm sm:text-base text-text-secondary mt-2 max-w-2xl mx-auto"
+          >
+            Explora los 7 desafíos fundamentales que conforman nuestra visión institucional
+          </motion.p>
         </div>
       </div>
 
