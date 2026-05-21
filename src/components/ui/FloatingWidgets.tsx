@@ -14,6 +14,7 @@ import {
   Loader2,
   Sparkles,
 } from "lucide-react";
+import { asset } from "@/lib/assetPath";
 
 // // ✅ BEST PRACTICE: Declaramos los iconos de marcas como componentes SVG inline para asegurar independencia absoluta de versiones de bibliotecas y evitar fallos de compilación.
 // // 📚 LEARN: El uso de SVG inline en React permite total control sobre las propiedades stroke, fill y animaciones de CSS / Framer Motion.
@@ -238,7 +239,7 @@ export default function FloatingWidgets() {
                   <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center relative overflow-hidden border border-white/20">
                     {/* Bot animado SVG */}
                     <img 
-                      src="/media/Robot-Bot 3D.svg"
+                      src={asset("/media/Robot-Bot 3D.svg")}
                       alt="PED-Bot"
                       className="w-8 h-8 object-contain animate-bounce"
                       style={{ animationDuration: "2s" }}
@@ -403,7 +404,7 @@ export default function FloatingWidgets() {
               >
                 {/* 🤖 Robot 3D premium como protagonista */}
                 <img
-                  src="/media/Robot-Bot 3D.svg"
+                  src={asset("/media/Robot-Bot 3D.svg")}
                   alt="PED-Bot"
                   className="w-[76px] h-[76px] object-contain transition-transform duration-300 group-hover:scale-110 group-hover:-translate-y-1"
                 />

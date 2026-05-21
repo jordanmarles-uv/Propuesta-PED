@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, X } from "lucide-react";
 import { DESAFIOS } from "@/data/desafios";
 import SectionHeading from "@/components/ui/SectionHeading";
+import { asset } from "@/lib/assetPath";
 
 export default function DesafiosSection() {
   const [activeId, setActiveId] = useState<number | null>(null);
@@ -77,7 +78,7 @@ export default function DesafiosSection() {
                       }}
                     >
                       <img
-                        src={`/media/desafio-${desafio.id}.png`}
+                        src={asset(`/media/desafio-${desafio.id}.png`)}
                         alt={`Icono Desafío ${desafio.id}`}
                         className={`w-7 h-7 object-contain transition-all ${isActive ? "brightness-0 invert" : ""}`}
                       />

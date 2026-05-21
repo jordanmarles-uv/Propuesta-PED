@@ -4,6 +4,7 @@
 // Contiene: logos, links institucionales, créditos y copyright.
 
 import { ExternalLink } from "lucide-react";
+import { asset } from "@/lib/assetPath";
 
 const LINKS_INSTITUCIONALES = [
   { label: "Portal Univalle", href: "https://www.univalle.edu.co" },
@@ -32,7 +33,7 @@ export default function FooterInstitutional() {
           <div className="sm:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-3 mb-4">
               <img
-                src="/media/logo-80-anos.png"
+                src={asset("/media/logo-80-anos.png")}
                 alt="Logo Universidad del Valle 80 años"
                 className="w-12 h-12 object-contain brightness-0 invert shrink-0"
               />

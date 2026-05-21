@@ -25,13 +25,14 @@ const Instagram = ({ size = 24, ...props }: React.SVGProps<SVGSVGElement> & { si
   </svg>
 );
 import SectionHeading from "@/components/ui/SectionHeading";
+import { asset } from "@/lib/assetPath";
 
 // ✅ BEST PRACTICE: Estructuración inmutable de las publicaciones oficiales
 const INSTAGRAM_POSTS = [
   {
     id: "DIt2Li4MvFZ",
     title: "La Universidad del Valle proyecta su futuro al 2035. Conoce los 7 desafíos de transformación del PED y sé parte del cambio. 🔴✨ #PED2035 #Univalle",
-    thumbnail: "/media/video-thumb-institucional.jpg",
+    thumbnail: asset("/media/video-thumb-institucional.jpg"),
     likes: 4281,
     comments: "112",
     href: "https://www.instagram.com/reel/DIt2Li4MvFZ/",
@@ -39,7 +40,7 @@ const INSTAGRAM_POSTS = [
   {
     id: "DMDIY25tI02",
     title: "Nuestras 11 sedes regionales unidas por un solo propósito. La regionalización y el modelo multicampus en el centro del PED 2025-2035. 🗺️🏫 #Univalle #Regionalizacion",
-    thumbnail: "/media/video-thumb-metodologia.webp",
+    thumbnail: asset("/media/video-thumb-metodologia.webp"),
     likes: 3829,
     comments: "94",
     href: "https://www.instagram.com/reel/DMDIY25tI02/",
@@ -47,7 +48,7 @@ const INSTAGRAM_POSTS = [
   {
     id: "DAyxLY4SOpf",
     title: "Voces de la comunidad: estudiantes, egresados y docentes nos cuentan qué esperan de la Universidad del Valle para la próxima década. 🗣️🎓 #Participa #PEDUnivalle",
-    thumbnail: "/media/video-thumb-comunidad.webp",
+    thumbnail: asset("/media/video-thumb-comunidad.webp"),
     likes: 5102,
     comments: "158",
     href: "https://www.instagram.com/reel/DAyxLY4SOpf/",
@@ -221,7 +222,7 @@ export default function SocialFeedSection() {
                 <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-tr from-yellow-400 via-pink-500 to-purple-600 flex items-center justify-center shrink-0 shadow-md">
                   <div className="w-full h-full rounded-full bg-white p-0.5 flex items-center justify-center overflow-hidden">
                     <img
-                      src="/media/logo-80-anos.png"
+                      src={asset("/media/logo-80-anos.png")}
                       alt="Perfil Universidad del Valle"
                       className="w-full h-full object-contain"
                     />

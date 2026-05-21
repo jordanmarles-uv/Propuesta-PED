@@ -8,6 +8,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Users } from "lucide-react";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import { asset } from "@/lib/assetPath";
 
 const NAV_LINKS = [
   { label: "Inicio", href: "#hero" },
@@ -87,7 +88,7 @@ export default function Header() {
                 className="flex items-center gap-3 group"
               >
                 <img
-                  src="/media/logo-80-anos.png"
+                  src={asset("/media/logo-80-anos.png")}
                   alt="Logo Universidad del Valle 80 años"
                   className="w-[52px] h-[52px] object-contain group-hover:scale-105 transition-transform duration-300 shrink-0"
                   style={{ filter: isScrolled ? "none" : "brightness(0) invert(1)" }}

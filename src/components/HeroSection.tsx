@@ -11,6 +11,7 @@ import {
   Users,
 } from "lucide-react";
 import { useCountUp } from "@/hooks/useCountUp";
+import { asset } from "@/lib/assetPath";
 
 const HERO_STATS = [
   { icon: Users, value: 33, label: "programas estratégicos", suffix: "" },
@@ -60,7 +61,7 @@ export default function HeroSection() {
         <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: "url('/media/hero-campus-aerial.jpg')",
+            backgroundImage: `url('${asset("/media/hero-campus-aerial.jpg")}')`,
           }}
         />
         <div
