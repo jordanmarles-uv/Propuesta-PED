@@ -154,8 +154,8 @@ export default function FloatingWidgets() {
 
   return (
     <>
-      {/* ── 1. STICKY SOCIAL MEDIA BAR (LATERAL IZQUIERDO) ── */}
-      <div className="fixed left-0 top-[35%] z-50 flex flex-col gap-1.5 pointer-events-none">
+      {/* ── 1. STICKY SOCIAL MEDIA BAR \u2014 oculto en mobile para no obstruir ── */}
+      <div className="fixed left-0 top-[35%] z-50 hidden sm:flex flex-col gap-1.5 pointer-events-none">
         {[
           {
             name: "Instagram",

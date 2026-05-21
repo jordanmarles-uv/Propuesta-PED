@@ -99,19 +99,18 @@ export default function LotusHeroSection() {
         ))}
       </div>
 
-      {/* ═══ CONTENIDO PRINCIPAL (2 COLUMNAS) ═══ */}
+      {/* ═══ CONTENIDO PRINCIPAL ═══ */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+        {/* Layout: en mobile columna única centrada; en desktop 2 columnas */}
+        <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-8 items-center gap-8">
           
-          {/* ── Columna Izquierda: Textos y CTA ── */}
+          {/* ── Textos y CTA ── */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="flex flex-col items-start text-left"
+            className="flex flex-col items-center text-center lg:items-start lg:text-left w-full"
           >
-            {/* ✅ BEST PRACTICE: Logo ya está en el Header fijo; omitirlo aquí evita duplicidad. */}
-
             <span className="inline-block px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-uv-red-subtle text-uv-red border border-uv-red/20 mb-6">
               Ruta Estratégica
             </span>
@@ -130,7 +129,7 @@ export default function LotusHeroSection() {
               La hoja de ruta que guiará a la Universidad del Valle hacia la excelencia académica, la transformación digital y el compromiso regional en la próxima década.
             </p>
 
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap justify-center lg:justify-start gap-4">
               <a href="#contexto" className="btn-primary inline-flex items-center gap-2">
                 <BookOpen size={16} />
                 Conoce las bases
@@ -142,13 +141,35 @@ export default function LotusHeroSection() {
             </div>
           </motion.div>
 
-          {/* ── Columna Derecha: Loto SVG ── */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-[500px] lg:max-w-[700px] mx-auto flex items-center justify-center"
-            style={{ overflow: "visible" }}
+          {/* ── Columna derecha / Loto ── */}
+          <div className="w-full flex flex-col items-center gap-4">
+
+            {/* Subtítulo + instrucción — ENCIMA de la flor */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.6 }}
+              className="text-center max-w-xs sm:max-w-sm"
+            >
+              <p className="text-sm sm:text-base font-semibold text-text-primary mb-1">
+                Explora los 7 desafíos fundamentales que conforman nuestra visión institucional
+              </p>
+              {/* 📚 LEARN: Un CTA claro aumenta el engagement con elementos interactivos */}
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-uv-red bg-uv-red-subtle border border-uv-red/20 px-3 py-1 rounded-full">
+                <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11 5C11 4.45 11.45 4 12 4s1 .45 1 1v6h6c.55 0 1 .45 1 1s-.45 1-1 1h-6v6c0 .55-.45 1-1 1s-1-.45-1-1v-6H5c-.55 0-1-.45-1-1s.45-1 1-1h6V5z"/>
+                </svg>
+                Toca cada pétalo para explorar
+              </span>
+            </motion.div>
+
+            {/* SVG de la Flor */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              className="relative w-full max-w-[360px] sm:max-w-[480px] lg:max-w-[600px] mx-auto flex items-center justify-center"
+              style={{ overflow: "visible" }}
           >
             <svg
               viewBox={`0 0 ${SVG_SIZE} ${SVG_SIZE}`}
@@ -413,16 +434,7 @@ export default function LotusHeroSection() {
                 })()}
             </AnimatePresence>
           </motion.div>
-
-          {/* Texto debajo de la flor */}
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            className="col-span-1 lg:col-span-2 text-center text-sm sm:text-base text-text-secondary mt-2 max-w-2xl mx-auto"
-          >
-            Explora los 7 desafíos fundamentales que conforman nuestra visión institucional
-          </motion.p>
+          </div>
         </div>
       </div>
 
