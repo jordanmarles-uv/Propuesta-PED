@@ -21,7 +21,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function TimelineSection() {
-  const [activeEvent, setActiveEvent] = useState<string | null>(null);
+  const [activeEvent, setActiveEvent] = useState<number | null>(null);
 
   return (
     <section id="timeline" className="section-padding bg-bg-primary">

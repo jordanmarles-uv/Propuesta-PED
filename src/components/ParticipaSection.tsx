@@ -13,7 +13,7 @@ import {
   AlertCircle,
   Loader2,
 } from "lucide-react";
-import { submitIdea } from "@/app/actions/submitIdea";
+import { submitIdeaClient } from "@/services/ideaService";
 import { PROXIMOS_EVENTOS } from "@/data/timeline";
 import SectionHeading from "@/components/ui/SectionHeading";
 
@@ -41,7 +41,18 @@ export default function ParticipaSection() {
 
     try {
       const formData = new FormData(e.currentTarget);
-      const result = await submitIdea(formData);
+      const nombre = formData.get("nombre") as string;
+      const correo = formData.get("correo") as string;
+      const estamento = formData.get("estamento") as string;
+      const opinion = formData.get("opinion") as string;
+
+      // ✅ BEST PRACTICE: Pasar los datos tipados al servicio del cliente (SoC)
+      const result = await submitIdeaClient({
+        nombre,
+        correo,
+        estamento,
+        opinion,
+      });
 
       if (result.success) {
         setFormState("success");
