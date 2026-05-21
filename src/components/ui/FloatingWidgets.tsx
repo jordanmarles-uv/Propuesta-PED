@@ -233,9 +233,12 @@ export default function FloatingWidgets() {
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center relative overflow-hidden border border-white/20">
                     {/* Bot animado SVG */}
-                    <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current text-white animate-bounce" style={{ animationDuration: "2s" }}>
-                      <path d="M12 2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v2h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2H6a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h1V7a2 2 0 0 1 2-2h2V4a2 2 0 0 1 1-2zm-3 8a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
-                    </svg>
+                    <img 
+                      src="/media/Robot-Bot 3D.svg"
+                      alt="PED-Bot"
+                      className="w-8 h-8 object-contain animate-bounce"
+                      style={{ animationDuration: "2s" }}
+                    />
                     <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-400 rounded-full border-2 border-uv-red" />
                   </div>
                   <div>
@@ -394,9 +397,11 @@ export default function FloatingWidgets() {
                 className="flex items-center justify-center shrink-0"
               >
                 {/* 🤖 Bot Animado en SVG nativo */}
-                <svg viewBox="0 0 24 24" className="w-7 h-7 fill-current text-white animate-pulse">
-                  <path d="M12 2a2 2 0 0 1 2 2v1h2a2 2 0 0 1 2 2v2h1a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-1v2a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2v-2H6a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h1V7a2 2 0 0 1 2-2h2V4a2 2 0 0 1 1-2zm-3 8a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" />
-                </svg>
+                <img 
+                  src="/media/Robot-Bot 3D.svg"
+                  alt="PED-Bot"
+                  className="w-9 h-9 object-contain animate-pulse"
+                />
               </motion.div>
             )}
           </AnimatePresence>
