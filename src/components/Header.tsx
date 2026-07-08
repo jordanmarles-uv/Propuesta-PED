@@ -90,7 +90,7 @@ export default function Header() {
                 <img
                   src={asset("/media/logo-80-anos.png")}
                   alt="Logo Universidad del Valle 80 años"
-                  className="w-[52px] h-[52px] object-contain group-hover:scale-105 transition-transform duration-300 shrink-0"
+                  className="w-14 h-14 md:w-20 md:h-20 object-contain group-hover:scale-105 transition-transform duration-300 shrink-0"
                   style={{ filter: isScrolled ? "none" : "brightness(0) invert(1)" }}
                 />
                 <div className="hidden sm:block text-left">

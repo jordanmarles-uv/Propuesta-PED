@@ -35,7 +35,7 @@ export default function FooterInstitutional() {
               <img
                 src={asset("/media/logo-80-anos.png")}
                 alt="Logo Universidad del Valle 80 años"
-                className="w-12 h-12 object-contain brightness-0 invert shrink-0"
+                className="w-24 h-24 object-contain brightness-0 invert shrink-0"
               />
               <div>
                 <p className="text-sm font-bold" style={{ fontFamily: "var(--font-heading)" }}>

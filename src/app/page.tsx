@@ -9,7 +9,6 @@ import CifrasSection from "@/components/CifrasSection";
 import TimelineSection from "@/components/TimelineSection";
 import MultimediaSection from "@/components/MultimediaSection";
 import ParticipaSection from "@/components/ParticipaSection";
-import SocialFeedSection from "@/components/SocialFeedSection";
 import FooterInstitutional from "@/components/FooterInstitutional";
 import FloatingWidgets from "@/components/ui/FloatingWidgets";
 
@@ -22,7 +21,6 @@ export default function Home() {
         <ContextoSection />
         <div className="section-divider" />
         <TimelineSection />
-        <SocialFeedSection />
         <CifrasSection />
         <div className="section-divider" />
         <MultimediaSection />

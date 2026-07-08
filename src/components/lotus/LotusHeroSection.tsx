@@ -116,7 +116,7 @@ export default function LotusHeroSection() {
             </span>
             
             <h1
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-text-primary leading-[1.1] tracking-tight mb-6"
+              className="text-4xl sm:text-5xl lg:text-6xl font-black text-text-primary leading-[1.1] tracking-tight mb-3"
               style={{ fontFamily: "var(--font-heading)" }}
             >
               Plan Estratégico de Desarrollo
@@ -124,10 +124,43 @@ export default function LotusHeroSection() {
                 2025 — 2035
               </span>
             </h1>
+            
+            <p 
+              className="text-lg sm:text-xl font-bold tracking-widest text-text-secondary uppercase mb-6"
+              style={{ fontFamily: "var(--font-heading)" }}
+            >
+              Universidad del Valle
+            </p>
 
-            <p className="text-base sm:text-lg text-text-secondary leading-relaxed mb-8 max-w-lg">
+            <p className="text-base sm:text-lg text-text-secondary leading-relaxed mb-4 max-w-lg mx-auto lg:mx-0">
               La hoja de ruta que guiará a la Universidad del Valle hacia la excelencia académica, la transformación digital y el compromiso regional en la próxima década.
             </p>
+
+            {/* ✅ BEST PRACTICE: Llamado a la acción antes de los botones CTA para dar contexto a la flor */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+              className="flex flex-col items-center lg:items-start gap-2 mb-8 max-w-lg mx-auto lg:mx-0"
+            >
+              <p className="text-sm sm:text-base font-bold text-text-primary">
+                Explora los 7 desafíos fundamentales que conforman nuestra visión institucional
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-uv-red bg-uv-red-subtle border border-uv-red/20 px-3 py-1 rounded-full">
+                  👉 Toca cada pétalo para explorar
+                </span>
+                {/* Flecha apuntando hacia la flor en desktop */}
+                <motion.span
+                  animate={{ x: [0, 6, 0] }}
+                  transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+                  className="hidden lg:inline-block text-uv-red text-xl font-black"
+                  aria-hidden="true"
+                >
+                  →
+                </motion.span>
+              </div>
+            </motion.div>
 
             <div className="flex flex-wrap justify-center lg:justify-start gap-4">
               <a href="#contexto" className="btn-primary inline-flex items-center gap-2">
@@ -144,31 +177,12 @@ export default function LotusHeroSection() {
           {/* ── Columna derecha / Loto ── */}
           <div className="w-full flex flex-col items-center gap-4">
 
-            {/* Subtítulo + instrucción — ENCIMA de la flor */}
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
-              className="text-center max-w-xs sm:max-w-sm"
-            >
-              <p className="text-sm sm:text-base font-semibold text-text-primary mb-1">
-                Explora los 7 desafíos fundamentales que conforman nuestra visión institucional
-              </p>
-              {/* 📚 LEARN: Un CTA claro aumenta el engagement con elementos interactivos */}
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-uv-red bg-uv-red-subtle border border-uv-red/20 px-3 py-1 rounded-full">
-                <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M11 5C11 4.45 11.45 4 12 4s1 .45 1 1v6h6c.55 0 1 .45 1 1s-.45 1-1 1h-6v6c0 .55-.45 1-1 1s-1-.45-1-1v-6H5c-.55 0-1-.45-1-1s.45-1 1-1h6V5z"/>
-                </svg>
-                Toca cada pétalo para explorar
-              </span>
-            </motion.div>
-
-            {/* SVG de la Flor */}
+            {/* SVG de la Flor — sin bloque de subtitulo encima */}
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 1.2, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              className="relative w-full max-w-[360px] sm:max-w-[480px] lg:max-w-[600px] mx-auto flex items-center justify-center"
+              className="relative w-full max-w-[460px] sm:max-w-[620px] lg:max-w-[720px] mx-auto flex items-center justify-center"
               style={{ overflow: "visible" }}
           >
             <svg
@@ -255,8 +269,8 @@ export default function LotusHeroSection() {
                     <motion.path
                       d={PETAL_PATH}
                       fill={`url(#petal-grad-${desafio.id})`}
-                      stroke="rgba(255,255,255,0.55)"
-                      strokeWidth={isHovered ? 6 : 3.5}
+                      stroke="rgba(255,255,255,0.7)"
+                      strokeWidth={isHovered ? 8 : 5}
                       style={{
                         cursor: "pointer",
                         transformOrigin: "0px -112px",
@@ -331,7 +345,7 @@ export default function LotusHeroSection() {
               {/* Título central prominente */}
               <text
                 x={SVG_CENTER}
-                y={SVG_CENTER - 22}
+                y={SVG_CENTER - 10}
                 textAnchor="middle"
                 fill="var(--uv-red)"
                 fontSize="38"
@@ -342,27 +356,17 @@ export default function LotusHeroSection() {
               </text>
               <text
                 x={SVG_CENTER}
-                y={SVG_CENTER + 20}
+                y={SVG_CENTER + 22}
                 textAnchor="middle"
                 fill="var(--text-primary)"
-                fontSize="22"
+                fontSize="24"
                 fontWeight="800"
-                letterSpacing={3}
+                letterSpacing={2}
                 style={{ fontFamily: "var(--font-heading)" }}
               >
-                2035
+                2025–2035
               </text>
-              <text
-                x={SVG_CENTER}
-                y={SVG_CENTER + 46}
-                textAnchor="middle"
-                fill="var(--text-muted)"
-                fontSize="11"
-                fontWeight="600"
-                letterSpacing={5}
-              >
-                UNIVALLE
-              </text>
+              {/* Quitar UNIVALLE del centro — solo PED + año */}
 
               {/* Labels D1..D7 ampliados */}
               {DESAFIOS.map((desafio, i) => {

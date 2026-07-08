@@ -205,7 +205,9 @@ function MetricCard({
               +{Math.round((sparkData[sparkData.length - 1] / sparkData[0] - 1) * 100)}%
             </span>
           </div>
-          <Sparkline data={sparkData} color={metrica.color} />
+          <div className="w-full max-w-[160px] mx-auto pt-1">
+            <Sparkline data={sparkData} color={metrica.color} />
+          </div>
         </div>
       </div>
 
